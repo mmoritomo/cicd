@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-server
+  labels:
+    app: git-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: git-server
+  template:
+    metadata:
+      labels:
+        app: git-server
+    spec:
+      containers:
+      - name: git-server
+        image: gitea/gitea:latest
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: git-repo-volume
+          mountPath: /data
+      volumes:
+      - name: git-repo-volume
+        emptyDir: {}
